@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "module": "NodeNext",
+    "target": "ESNext",
+
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node16",
+    "sourceMap": true,
+    "inlineSources": true,
+    "rootDir": "./",
+    "outDir": "./lib"
+  },
+  "exclude": ["**/*.spec.ts", "dist", "lib", "test"]
+}

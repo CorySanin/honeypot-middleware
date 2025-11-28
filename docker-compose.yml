@@ -1,0 +1,25 @@
+services:
+  traefik:
+    image: traefik:v3.6
+    restart: 'no'
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config:/config
+      - ./:/plugins-local/src/github.com/CorySanin/honeypot-middleware
+    command:
+      - --entrypoints.web.address=:80
+      - --providers.docker=true
+      - --providers.file.filename=/config/providers.yml
+      - --experimental.localPlugins.honeypot-middleware.moduleName=github.com/CorySanin/honeypot-middleware
+  
+  target:
+    image: traefik/whoami:latest
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.target.rule=Host(`localhost`)
+      - traefik.http.routers.target.entrypoints=web
+      - traefik.http.routers.target.service=target
+      - traefik.http.routers.target.middlewares=honeypot@file
+      - traefik.http.services.target.loadbalancer.server.port=80

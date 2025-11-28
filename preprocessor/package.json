@@ -1,0 +1,21 @@
+{
+  "name": "honeypot-middleware-preprocessor",
+  "version": "0.1.0",
+  "description": "embed html files into the homeypot middeware script",
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "lib/src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node lib/src/index.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10"
+  },
+  "devDependencies": {
+    "@types/ejs": "3.1.5",
+    "@types/node": "24.10.1",
+    "typescript": "5.9.3"
+  }
+}

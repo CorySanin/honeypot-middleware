@@ -1,0 +1,6 @@
+http:  
+  middlewares:
+    honeypot:
+      plugin:
+        honeypot-middleware:
+          verbose: true
