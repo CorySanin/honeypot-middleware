@@ -7,9 +7,10 @@ Traefik middleware for observing vulnerability crawler behavior. It also directs
 In your traefik config:
 ```
 experimental:
-  localPlugins:
+  plugins:
     honeypot-middleware:
       moduleName: github.com/CorySanin/honeypot-middleware
+      version: v0.0.1
 ```
 
 in your providers definition file:

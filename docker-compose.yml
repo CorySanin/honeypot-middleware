@@ -9,10 +9,7 @@ services:
       - ./config:/config
       - ./:/plugins-local/src/github.com/CorySanin/honeypot-middleware
     command:
-      - --entrypoints.web.address=:80
-      - --providers.docker=true
-      - --providers.file.filename=/config/providers.yml
-      - --experimental.localPlugins.honeypot-middleware.moduleName=github.com/CorySanin/honeypot-middleware
+      - --configFile=/config/traefik.yml
   
   target:
     image: traefik/whoami:latest
