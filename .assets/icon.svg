@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="740"
+   height="839.99939"
+   viewBox="0 0 14.8 16.799988"
+   fill="none"
+   version="1.1"
+   id="svg1"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient5">
+      <stop
+         style="stop-color:#6bbf47;stop-opacity:1;"
+         offset="0"
+         id="stop6" />
+      <stop
+         style="stop-color:#73ab63;stop-opacity:1;"
+         offset="0.62511146"
+         id="stop7" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient4">
+      <stop
+         style="stop-color:#cbb76b;stop-opacity:1;"
+         offset="0"
+         id="stop4" />
+      <stop
+         style="stop-color:#c19e2a;stop-opacity:1;"
+         offset="1"
+         id="stop5" />
+    </linearGradient>
+    <radialGradient
+       xlink:href="#linearGradient4"
+       id="radialGradient5"
+       cx="8"
+       cy="10.035012"
+       fx="8"
+       fy="10.035012"
+       r="7"
+       gradientTransform="matrix(1,0,0,0.85214111,-0.60000002,1.8837597)"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       xlink:href="#linearGradient5"
+       id="linearGradient7"
+       x1="0.59999996"
+       y1="8"
+       x2="15.4"
+       y2="8"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-0.60000002,0.39999393)" />
+  </defs>
+  <path
+     d="m 7.4,0.39999393 7,3.99999997 v 8.0000001 l -7,4 -7.00000002,-4 V 4.3999939 Z"
+     fill="#000000"
+     id="path1"
+     style="fill:url(#linearGradient7);fill-opacity:1;stroke:#3e863d;stroke-width:0.8;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill" />
+  <path
+     id="path2"
+     style="fill:url(#radialGradient5);fill-opacity:1;stroke:none;stroke-width:0.8;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+     d="M 4.4580859,4.4745642 C 4.3361265,4.4684705 4.2140382,4.4683696 4.0917187,4.475072 2.8390197,4.5437131 1.4654832,5.2494015 0.39999998,5.7555408 v 6.6444532 l 7.00000002,4 7,-4 V 5.6179236 C 13.2476,5.7978114 11.389911,6.0472951 10.043477,6.030033 8.0830148,6.0048988 6.2874772,4.5659699 4.4580859,4.4745642 Z" />
+</svg>

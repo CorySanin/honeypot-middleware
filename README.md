@@ -1,3 +1,5 @@
+![Honeypot Middleware icon](.assets/icon.png)
+
 # honeypot-middleware
 
 Traefik middleware for observing vulnerability crawler behavior. It also directs these bots away from the real target.
@@ -29,4 +31,4 @@ Last, add `honeypot@file` to your target's middlewares.
 
 # development
 
-In order to embed the response bodies, there's a ejs template that is used to generate the final plugin. Edit [preprocessor/plugin-template.go](preprocessor/plugin-template.go). Make the plugin with `make`. Requires nodejs and npm. The `docker-compose.yml` definition is ready to test the plugin.
+In order to embed the response bodies, there's an ejs template that is used to generate the final plugin. Edit [preprocessor/plugin-template.go](preprocessor/plugin-template.go). Make the plugin with `make`. Requires nodejs and npm. The `docker-compose.yml` definition is ready to test the plugin.

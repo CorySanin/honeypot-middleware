@@ -11,7 +11,7 @@ import: github.com/CorySanin/honeypot-middleware
 summary: Serve fake files to vulnerability crawlers
 
 # Medias associated to the plugin (optional)
-# iconPath: foo/icon.png
+iconPath: .assets/icon.png
 # bannerPath: foo/banner.png
 
 # Configuration data for your plugin.
