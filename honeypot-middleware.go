@@ -1089,7 +1089,7 @@ func (a *HoneypotMiddleware) SendResponse(rw http.ResponseWriter, req *http.Requ
 	rw.WriteHeader(200)
 	rw.Write([]byte(ReplaceReq(str, req.URL.Path)))
 	if a.Verbose {
-		fmt.Fprintf(os.Stdout, "[honeypot🟢] serving %s:'%s' to %s UA: '%s'\n", req.Method, req.RequestURI, req.RemoteAddr, req.UserAgent())
+		fmt.Fprintf(os.Stdout, "[honeypot🟢] serving %s:'%s%s' to %s UA: '%s'\n", req.Method, req.Host, req.RequestURI, req.RemoteAddr, req.UserAgent())
 		var err = LogBody(req)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "[honeypot🔴] Failed to read request body: %s\n", err)
