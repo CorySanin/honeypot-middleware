@@ -10,7 +10,7 @@ experimental:
   plugins:
     honeypot-middleware:
       moduleName: github.com/CorySanin/honeypot-middleware
-      version: v0.0.1
+      version: v0.0.2
 ```
 
 in your providers definition file:
