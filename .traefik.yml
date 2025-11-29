@@ -19,3 +19,11 @@ summary: Serve fake files to vulnerability crawlers
 # and Plugins Catalog will try to execute the plugin with the data you provide as part of its startup validity tests.
 testData:
   verbose: false
+  phpInfoPatterns:
+    - /phpinfo[0-9]?\.php$
+  executionPatterns:
+    - /xmlrpc\.php$
+  dotEnvPatterns:
+    - \.env$
+  wlwmanifestPatterns:
+    - /wlwmanifest\.xml$

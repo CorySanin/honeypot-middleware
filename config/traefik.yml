@@ -6,11 +6,10 @@ providers:
   file:
     filename: /config/providers.yml
 experimental:
-  localPlugins:
+  # localPlugins:
+  #   honeypot-middleware:
+  #     moduleName: github.com/CorySanin/honeypot-middleware
+  plugins:
     honeypot-middleware:
       moduleName: github.com/CorySanin/honeypot-middleware
-# experimental:
-#   plugins:
-#     honeypot-middleware:
-#       moduleName: github.com/CorySanin/honeypot-middleware
-#       version: v0.0.1
+      version: v0.0.1
