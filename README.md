@@ -1,4 +1,4 @@
-![Honeypot Middleware icon](.assets/icon.png)
+![Honeypot Middleware icon](https://github.com/CorySanin/honeypot-middleware/blob/master/.assets/icon.png?raw=true)
 
 # honeypot-middleware
 
