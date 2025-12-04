@@ -19,9 +19,12 @@ iconPath: .assets/icon.png
 # and Plugins Catalog will try to execute the plugin with the data you provide as part of its startup validity tests.
 testData:
   verbose: false
+  trustProxy: false
   phpInfoPatterns:
     - /phpinfo[0-9]?\.php$
   executionPatterns:
+    - /pwnd\.php$
+  xmlRpcPatterns:
     - /xmlrpc\.php$
   dotEnvPatterns:
     - \.env$
