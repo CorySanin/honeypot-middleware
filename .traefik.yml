@@ -20,6 +20,7 @@ iconPath: .assets/icon.png
 testData:
   verbose: false
   trustProxy: false
+  trustCF: false
   phpInfoPatterns:
     - /phpinfo[0-9]?\.php$
   executionPatterns:

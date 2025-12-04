@@ -28,6 +28,7 @@ const (
 type Config struct {
 	Verbose             bool     `json:"verbose" yaml:"verbose" toml:"verbose"`
 	TrustProxy          bool     `json:"trustProxy" yaml:"TrustProxy" toml:"TrustProxy"`
+	TrustCF             bool     `json:"trustCF" yaml:"trustCF" toml:"trustCF"`
 	PhpInfoPatterns     []string `json:"phpInfoPatterns" yaml:"phpInfoPatterns" toml:"phpInfoPatterns"`
 	ExecutionPatterns   []string `json:"executionPatterns" yaml:"executionPatterns" toml:"executionPatterns"`
 	XmlRpcPatterns      []string `json:"xmlRpcPatterns" yaml:"xmlRpcPatterns" toml:"xmlRpcPatterns"`
@@ -39,6 +40,7 @@ func CreateConfig() *Config {
 	return &Config{
 		Verbose:             true,
 		TrustProxy:          false,
+		TrustCF:             false,
 		PhpInfoPatterns:     []string{"/server-info\\.php$", "/(php_)?version\\.php$", "/phpinfo[0-9]?\\.php$", "/pi\\.php$", "/[^/]*\\.phpinfo$"},
 		ExecutionPatterns:   []string{"/function\\.php$", "/bolt\\.php$", "/env\\.php$", "/userfuns\\.php$", "/postnews\\.php$", "/pwnd\\.php$", "/init-help/init\\.php$"},
 		XmlRpcPatterns:      []string{"/xmlrpc\\.php$"},
@@ -51,6 +53,7 @@ type HoneypotMiddleware struct {
 	next                http.Handler
 	Verbose             bool
 	TrustProxy          bool
+	TrustCF             bool
 	PhpInfoPatterns     []*regexp.Regexp
 	ExecutionPatterns   []*regexp.Regexp
 	XmlRpcPatterns      []*regexp.Regexp
@@ -107,7 +110,7 @@ func LogBody(req *http.Request) (string, error) {
 }
 
 func (a *HoneypotMiddleware) GetRemoteAddr(req *http.Request) string {
-	if ip := req.Header.Get("CF-Connecting-IP"); ip != "" && a.TrustProxy {
+	if ip := req.Header.Get("CF-Connecting-IP"); ip != "" && a.TrustCF {
 		return ip
 	}
 	return req.RemoteAddr
@@ -221,6 +224,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 		next:                next,
 		Verbose:             config.Verbose,
 		TrustProxy:          config.TrustProxy,
+		TrustCF:             config.TrustCF,
 		PhpInfoPatterns:     phpInfoPatterns,
 		ExecutionPatterns:   executionPatterns,
 		XmlRpcPatterns:      XmlRpcPatterns,
