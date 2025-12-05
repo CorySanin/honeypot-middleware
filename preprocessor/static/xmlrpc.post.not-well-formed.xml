@@ -5,15 +5,11 @@
       <struct>
         <member>
           <name>faultCode</name>
-          <value>
-            <int>-32700</int>
-          </value>
+          <value><int>-32700</int></value>
         </member>
         <member>
           <name>faultString</name>
-          <value>
-            <string>parse error. not well formed</string>
-          </value>
+          <value><string>parse error. not well formed</string></value>
         </member>
       </struct>
     </value>

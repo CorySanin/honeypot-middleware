@@ -3,56 +3,19 @@
   <params>
     <param>
       <value>
-        <array>
-          <data>
-            <value>
-              <array>
-                <data>
-                  <value>
-                    <array>
-                      <data>
-                        <value>
-                          <struct>
-                            <member>
-                              <name>isAdmin</name>
-                              <value>
-                                <boolean>1</boolean>
-                              </value>
-                            </member>
-                            <member>
-                              <name>url</name>
-                              <value>
-                                <string>%REQ_BASE_URL%/</string>
-                              </value>
-                            </member>
-                            <member>
-                              <name>blogid</name>
-                              <value>
-                                <string>1</string>
-                              </value>
-                            </member>
-                            <member>
-                              <name>blogName</name>
-                              <value>
-                                <string>My Blog</string>
-                              </value>
-                            </member>
-                            <member>
-                              <name>xmlrpc</name>
-                              <value>
-                                <string>%REQ_FULL%</string>
-                              </value>
-                            </member>
-                          </struct>
-                        </value>
-                      </data>
-                    </array>
-                  </value>
-                </data>
-              </array>
-            </value>
-          </data>
-        </array>
+      <array><data>
+  <value><array><data>
+  <value><array><data>
+  <value><struct>
+  <member><name>isAdmin</name><value><boolean>1</boolean></value></member>
+  <member><name>url</name><value><string>%REQ_BASE_URL%/</string></value></member>
+  <member><name>blogid</name><value><string>1</string></value></member>
+  <member><name>blogName</name><value><string>My Blog</string></value></member>
+  <member><name>xmlrpc</name><value><string>%REQ_FULL%</string></value></member>
+</struct></value>
+</data></array></value>
+</data></array></value>
+</data></array>
       </value>
     </param>
   </params>

@@ -8,6 +8,7 @@ import (
 	"os"
 	"regexp"
 	"strings"
+	"time"
 )
 
 const (
@@ -21,8 +22,8 @@ const (
 	dot__env                  = `<%- files['dot.env'] %>`
 	blank                     = ""
 	htmlContentType           = "text/html; charset=UTF-8"
-	plaintextContentType      = "text/plain"
-	xmlContentType            = "application/xml"
+	plaintextContentType      = "text/plain;charset=UTF-8"
+	xmlContentType            = "text/xml; charset=UTF-8"
 )
 
 type Config struct {
@@ -116,14 +117,30 @@ func (a *HoneypotMiddleware) GetRemoteAddr(req *http.Request) string {
 	return req.RemoteAddr
 }
 
-func (a *HoneypotMiddleware) SendResponse(rw http.ResponseWriter, req *http.Request, str string, contentType string) {
-	rw.Header().Set("Content-type", contentType)
-	rw.Header().Set("X-Robots-Tag", "noindex")
-	rw.WriteHeader(200)
-	rw.Write([]byte(a.ReplaceRuntimeVariables(str, req)))
+type SendResponseArgs struct {
+	ResponseWriter http.ResponseWriter
+	Request        *http.Request
+	Body           string
+	ContentType    string
+	ResponseCode   int
+}
+
+func CreateSendResponseArgs() SendResponseArgs {
+	return SendResponseArgs{
+		Body:         blank,
+		ContentType:  htmlContentType,
+		ResponseCode: 200,
+	}
+}
+
+func (a *HoneypotMiddleware) SendResponse(args SendResponseArgs) {
+	args.ResponseWriter.Header().Set("Content-type", args.ContentType)
+	args.ResponseWriter.Header().Set("X-Robots-Tag", "noindex")
+	args.ResponseWriter.WriteHeader(args.ResponseCode)
+	args.ResponseWriter.Write([]byte(a.ReplaceRuntimeVariables(args.Body, args.Request)))
 	if a.Verbose {
-		fmt.Fprintf(os.Stdout, "[honeypot🟢] serving %s:'%s%s' to %s UA: '%s'\n", req.Method, req.Host, req.RequestURI, a.GetRemoteAddr(req), req.UserAgent())
-		_, err := LogBody(req)
+		fmt.Fprintf(os.Stdout, "[honeypot🟢] serving %s:'%s%s' to %s UA: '%s'\n", args.Request.Method, args.Request.Host, args.Request.RequestURI, a.GetRemoteAddr(args.Request), args.Request.UserAgent())
+		_, err := LogBody(args.Request)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "[honeypot🔴] Failed to read request body: %s\n", err)
 		}
@@ -140,47 +157,72 @@ func IsMatch(req *http.Request, matchers []*regexp.Regexp) bool {
 	return false
 }
 
+func PoweredByPHP(rw http.ResponseWriter) {
+	rw.Header().Set("X-Powered-By", "PHP/5.3.29")
+}
+
 func (a *HoneypotMiddleware) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
+	SendResponseArgs := CreateSendResponseArgs()
+	SendResponseArgs.ResponseWriter = rw
+	SendResponseArgs.Request = req
 	if IsMatch(req, a.PhpInfoPatterns) {
-		rw.Header().Set("X-Powered-By", "PHP/5.3.29")
+		PoweredByPHP(rw)
 		rw.Header().Set("Server", "Apache/2.4.10 (Debian)")
-		a.SendResponse(rw, req, phpinfo__html, htmlContentType)
+		SendResponseArgs.Body = phpinfo__html
+		a.SendResponse(SendResponseArgs)
 		return
 	}
 	if IsMatch(req, a.XmlRpcPatterns) {
+		PoweredByPHP(rw)
+		rw.Header().Set("Date", time.Now().Format(http.TimeFormat))
 		if req.Method == "GET" {
-			a.SendResponse(rw, req, xmlrpc_get, xmlContentType)
+			rw.Header().Set("Allow", "POST")
+			SendResponseArgs.Body = xmlrpc_get
+			SendResponseArgs.ContentType = plaintextContentType
+			SendResponseArgs.ResponseCode = 405
+			a.SendResponse(SendResponseArgs)
 			return
 		}
 		body, err := LogBody(req)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "[honeypot🔴] Failed to read request body: %s\n", err)
 		}
+		SendResponseArgs.ContentType = xmlContentType
+		rw.Header().Set("Connection", "close")
+		rw.Header().Set("Vary", "Accept-Encoding")
 		if strings.Count(body, "admin") >= 2 {
-			a.SendResponse(rw, req, xmlrpc_post_incorrect, xmlContentType)
+			SendResponseArgs.Body = xmlrpc_post_incorrect
+			a.SendResponse(SendResponseArgs)
 			return
 		}
 		if strings.Contains(body, "wp.getUsersBlogs") {
-			a.SendResponse(rw, req, xmlrpc_post_getUserBlogs, xmlContentType)
+			SendResponseArgs.Body = xmlrpc_post_getUserBlogs
+			a.SendResponse(SendResponseArgs)
 			return
 		}
 		if strings.Contains(body, "metaWeblog.newPost") {
-			a.SendResponse(rw, req, xmlrpc_post_newPost, xmlContentType)
+			SendResponseArgs.Body = xmlrpc_post_newPost
+			a.SendResponse(SendResponseArgs)
 			return
 		}
-		a.SendResponse(rw, req, xmlrpc_post_notWellFormed, xmlContentType)
+		SendResponseArgs.Body = xmlrpc_post_notWellFormed
+		a.SendResponse(SendResponseArgs)
 		return
 	}
 	if IsMatch(req, a.ExecutionPatterns) {
-		a.SendResponse(rw, req, blank, htmlContentType)
+		a.SendResponse(SendResponseArgs)
 		return
 	}
 	if IsMatch(req, a.DotEnvPatterns) {
-		a.SendResponse(rw, req, dot__env, plaintextContentType)
+		SendResponseArgs.Body = dot__env
+		SendResponseArgs.ContentType = plaintextContentType
+		a.SendResponse(SendResponseArgs)
 		return
 	}
 	if IsMatch(req, a.WlwmanifestPatterns) {
-		a.SendResponse(rw, req, wlwmanifest__xml, xmlContentType)
+		SendResponseArgs.Body = wlwmanifest__xml
+		SendResponseArgs.ContentType = xmlContentType
+		a.SendResponse(SendResponseArgs)
 		return
 	}
 	a.next.ServeHTTP(rw, req)
