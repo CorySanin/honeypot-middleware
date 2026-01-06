@@ -130,3 +130,4 @@ public
 
 # DynamoDB Local files
 .dynamodb/
+php/
